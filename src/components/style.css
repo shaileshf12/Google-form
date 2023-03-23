@@ -1,0 +1,46 @@
+
+
+.dashboard-main{
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .nav{
+    border: 1px solid rgb(243, 233, 233);
+  }
+  
+  .forms-main-box{
+    background-color: rgb(241,243,244);
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    padding: 2rem;
+  }
+  
+  .forms-inner-box{
+    display: flex;
+    flex-direction: column;
+    margin: 0 5rem 0 5rem;
+   
+  }
+  
+  .forms{
+    display: flex;
+  }
+  
+  .new-form-title{
+    margin-bottom: 1rem;
+  }
+  
+  .new-form{
+    width: 8rem;
+    height: 8rem;
+    border: 1px solid black;
+    border-radius: .5rem;
+    padding: 2rem;
+    cursor: pointer;
+    background-color: white;
+  }
+  
+  .plus{
+    width: 4rem;
+    height: 4rem;
+  }
