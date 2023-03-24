@@ -1,14 +1,14 @@
 import React from "react";
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
-import logo from '../assets/logo.jpeg'
+import logo from '../../assets/logo.jpeg'
 
 function NavBar() {
   return (
     <>
       <Navbar className="nav" bg="white" variant="light">
         <Container>
-          <Navbar.Brand href="#home" >
+          <Navbar.Brand href="/" >
             <img
               alt=""
               src={logo}

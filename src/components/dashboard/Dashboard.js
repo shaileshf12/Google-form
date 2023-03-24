@@ -1,7 +1,8 @@
 import React from "react";
 import NavBar from "./NavBar";
-import plus from '../assets/plus.png'
+import plus from '../../assets/plus.png'
 import { useNavigate } from "react-router-dom";
+import './style.css'
 
 function Dashboard() {
 
