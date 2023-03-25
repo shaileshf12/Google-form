@@ -1,39 +1,101 @@
-
-import { SET_MAIN_TITLE, SET_TITLE, SET_DESCIPTION, ADD_QUESTION, EDIT_QUESTION} from "./formTypes";
+import {
+  SET_MAIN_TITLE,
+  SET_TITLE,
+  SET_DESCIPTION,
+  ADD_QUESTION,
+  EDIT_QUESTION,
+  DELETE_QUESTION,
+  ADD_DUPLICATE_QUESTION
+} from "./formTypes";
+import produce from "immer";
 
 const initialState = {
-    mainTitle: 'Untitled form',
-    title : 'Untitled form',
-    description : '',
-    questions : []
-}
+  mainTitle: "Untitled form",
+  title: "Untitled form",
+  description: "",
+  questions: [{
+      id : '1234',
+      name: "Untitled Question",
+      type: "multiple_coice",
+      options: [{ id: "123", name: "Option1"}]
+  }],
+};
 
-const formReducer = (state = initialState, action) =>{
-    switch (action.type) {
-        case SET_MAIN_TITLE:return {
-            ...state,
-            mainTitle : action.payload
-        }
+const formReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case SET_MAIN_TITLE:
+      return {
+        ...state,
+        mainTitle: action.payload,
+      };
 
-        case SET_TITLE : return {
-            ...state,
-            title : action.payload
-        }
+    case SET_TITLE:
+      return {
+        ...state,
+        title: action.payload,
+      };
 
-        case SET_DESCIPTION : return {
-            ...state,
-            description : action.payload
-        }
+    case SET_DESCIPTION:
+      return {
+        ...state,
+        description: action.payload,
+      };
 
-        case ADD_QUESTION : return {
-            ...state,
-            questions : [...state.questions, action.payload]
-        }
+    case ADD_QUESTION:
+      const i = state.questions.length
+      return produce(state, (draftState)=>{
+        draftState.questions = draftState.questions.reduce((acc, que, j)=>{
+            if(j==i-1)
+            {
+                acc.push(action.payload)
+                acc.push(que)
+                return acc;
+            }
+            acc.push(que)
+            return acc;
+        }, [])
+    })
 
-    
-        default:
-            return state
-    }
-}
+    case EDIT_QUESTION:
+      return produce(state, (draftState) => {
+        draftState.questions = draftState.questions.map((question) => {
+          if (question.id === action.payload.id) {
+            return action.payload;
+          }
+          return question;
+        });
+      });
 
-export default formReducer
+    case DELETE_QUESTION:
+      const id = action.payload;
+      return produce(state, (draftState) => {
+        draftState.questions = draftState.questions.filter((question) => {
+          if (question.id === id) {
+            return false;
+          }
+          return true;
+        });
+      });
+
+    case ADD_DUPLICATE_QUESTION :
+        const {prevId, question} = action.payload
+        return produce(state, (draftState)=>{
+            draftState.questions = draftState.questions.reduce((acc, que)=>{
+                if(prevId===que.id)
+                {
+                    acc.push(question)
+                    acc.push(que)
+                    return acc;
+                }
+
+                acc.push(que)
+                return acc;
+            }, [])
+        })
+
+    default:
+      return state;
+  }
+};
+
+export default formReducer;
