@@ -1,19 +1,38 @@
 
-import { SET_MAIN_TITLE } from "./formTypes";
+import { SET_MAIN_TITLE, SET_TITLE, SET_DESCIPTION, ADD_QUESTION, EDIT_QUESTION} from "./formTypes";
 
-const intialState = {
-    mainTitle: ''
+const initialState = {
+    mainTitle: 'Untitled form',
+    title : 'Untitled form',
+    description : '',
+    questions : []
 }
 
-const formReducer = (state=intialState, action) =>{
+const formReducer = (state = initialState, action) =>{
     switch (action.type) {
         case SET_MAIN_TITLE:return {
             ...state,
             mainTitle : action.payload
         }
+
+        case SET_TITLE : return {
+            ...state,
+            title : action.payload
+        }
+
+        case SET_DESCIPTION : return {
+            ...state,
+            description : action.payload
+        }
+
+        case ADD_QUESTION : return {
+            ...state,
+            questions : [...state.questions, action.payload]
+        }
+
     
         default:
-            break;
+            return state
     }
 }
 

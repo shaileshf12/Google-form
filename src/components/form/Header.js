@@ -4,10 +4,24 @@ import { useState} from "react";
 import "./style.css";
 import logo from "../../assets/logo.jpeg";
 import { Link, Outlet } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { setMainTitle } from "../../redux/form/formActions";
+import { setTitle } from "../../redux/form/formActions";
 
 function Header() {
-  const [mainTitle, setMainTitle] = useState("Untitled form");
+  // const [mainTitle, setMainTitle] = useState("Untitled form");
+  const dispatch = useDispatch()
+  const {mainTitle, title} = useSelector((state)=>state.form)
 
+  const state = useSelector((state)=>state.form)
+
+  const mainTitleHandler = (e) =>{
+    dispatch(setMainTitle(e.target.value))
+  }
+
+  const changeTitle = () =>{
+    dispatch(setTitle(mainTitle))
+  }
 
   return (
     <>
@@ -23,7 +37,7 @@ function Header() {
                   height="35"
                   className="d-inline-block align-top"
                 />{" "}
-                <input value={mainTitle} className="main-title-input" />
+                <input  className="main-title-input" value={mainTitle} onChange={mainTitleHandler} onMouseEnter={changeTitle} />
               </Navbar.Brand>
             </Container>
           </div>

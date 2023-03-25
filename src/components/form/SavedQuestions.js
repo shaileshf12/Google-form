@@ -1,33 +1,33 @@
-import React from "react";
-import QuestionsHeader from "./QuestionsHeader";
-import { useState } from "react";
+import React, { useState, useEffect, useRef} from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Form from "react-bootstrap/Form";
 import CloseButton from "react-bootstrap/CloseButton";
-import SideFunctions from "./SideFunctions";
-import { addQuestion } from "../../redux/form/formActions";
-import { useDispatch, useSelector } from "react-redux";
-import SavedQuestions from "./SavedQuestions";
+import { ReactDOM } from "react-dom";
 
-function Questions() {
 
-  const disaptch = useDispatch()
-
-  const [queDetails, setQueDetails] = useState({
-    id : '',
-    name: "Untitled Question",
-    type: "multiple_coice",
-    options: [{ id: "123", name: "Option1" }],
-  });
+function SavedQuestions(props) {
+  const [isEditable, setIsEditable] = useState(false);
+  const [flagForDate, setFlagForDate] = useState(true)
+  const [queDetails, setQueDetails] = useState(props.question)
 
   const {questions} = useSelector((state)=>state.form)
+  const disaptch = useDispatch()
 
-  const addQuestionName = (e) => {
+  const ref = useRef(null)
+
+  useEffect(()=>{
+    // disaptch()
+  },[])
+
+  const questionEditHandler = ()=>{
+    setIsEditable(true)
+  }
+
+  const addQuestionName =(e)=>{
     setQueDetails({ ...queDetails, name: e.target.value });
-  };
+  }
 
-  const [flagForDate, setFlagForDate] = useState(true)
-
-  const selectType = (e) => {
+  const selectType = (e) =>{
     if(e.target.value==='date')
     {
       setFlagForDate(false)
@@ -41,10 +41,9 @@ function Questions() {
       setFlagForDate(true)
     }
     setQueDetails({ ...queDetails, type: e.target.value });
-  };
+  }
 
   const editOption = (e, id) => {
-    // const ar = [...queDetails.options.slice(0, i), e.target.value, ...queDetails.options.slice(i+1)]
     const ar = queDetails.options.map((opt, j) => {
       if (opt.id == id) {
         opt.name = e.target.value;
@@ -53,51 +52,62 @@ function Questions() {
       return opt;
     });
     setQueDetails({ ...queDetails, options: [...ar] });
-  };
+  }
 
-  const addOption = () => {
+  const removeOption = (e, id) =>{
+    const ar = queDetails.options.filter((opt, j) => {
+      return opt.id !== id;
+    });
+    setQueDetails({ ...queDetails, options: [...ar] });
+  }
+
+  const addOption = () =>{
     const id = Math.floor(Math.random() * 1000).toString();
     const ar = [...queDetails.options];
     setQueDetails({
       ...queDetails,
       options: [...ar, { id, name: `Option${ar.length + 1}` }],
     });
-  };
+  }
 
-  const addOther = () => {
+  const addOther = () =>{
     const id = Math.floor(Math.random() * 1000).toString();
     const ar = [...queDetails.options];
     setQueDetails({ ...queDetails, options: [...ar, { id, name: "Other" }] });
-  };
+  }
 
-  const removeOption = (e, id) => {
-    const ar = queDetails.options.filter((opt, j) => {
-      return opt.id !== id;
-    });
-    setQueDetails({ ...queDetails, options: [...ar] });
-  };
+  useEffect(()=>{
+    document.addEventListener('click', handleClickOutside, true)
 
+    return ()=>{
+      document.removeEventListener('click', handleClickOutside, true)
+    }
+  }, [])
 
-  const addNewQuestion = () =>{
-    const id = Math.floor(Math.random() * 10000).toString()
-    setQueDetails({...queDetails, id} )
-    disaptch(addQuestion(queDetails))
-    setQueDetails({
-      id : '',
-      name: "Untitled Question",
-      type: "multiple_coice",
-      options: [{ id: "123", name: "Option1" }],
-    })
+  const handleClickOutside = (e) =>{
+    if(ref.current && !ref.current.contains(e.target)){
+      console.log("Clicked outside")
+      setIsEditable(false)
+    }
   }
 
   return (
-    <div className="questions-main">
-      <div className="questions">
-        <QuestionsHeader />
-        {questions.length!==0 && questions.map((question)=>{
-         return <SavedQuestions key={question.id} question={question}/>
-        })}
-        <div className="questions-functionality">
+    <div>
+      {!isEditable ? (
+        <div type="button" className="saved-question" onClick={questionEditHandler}>
+          <p>{queDetails.name}</p>
+          {queDetails.type !== "date" ? (
+            <ul>
+              {queDetails.options.map((opt) => {
+                return <li key={opt.id}>{opt.name}</li>;
+              })}
+            </ul>
+          ) : (
+            <p>{"dd/mm/yyyy"}</p>
+          )}
+        </div>
+      ) : (
+        <div ref={ref} className="questions-functionality">
           <div className="question-main">
             <div className="question-and-type">
               <input
@@ -120,42 +130,44 @@ function Questions() {
             </div>
 
             <div className="options">
-              {flagForDate ? queDetails.options.map((opt, i) => {
-                return (
-                  <div key={opt.id}>
-                    <input
-                      id={opt.id}
-                      className="option-input"
-                      value={opt.name}
-                      onChange={(e) => editOption(e, opt.id)}
-                    />
-                    <CloseButton onClick={(e) => removeOption(e, opt.id)} />
-                  </div>
-                );
-              }) 
-              :
-              <div>
-                    <input
-                      type="date"
-                      className="option-input"
-                      onChange={(e) => editOption(e, '123')}
-                    />
-              </div>
-
-              }
-              {flagForDate && <div>
-                <button
-                  type="button"
-                  className="add-option"
-                  onClick={addOption}
-                >
-                  Add option
-                </button>{" "}
-                or
-                <button className="add-other" onClick={addOther}>
-                  add "Other"
-                </button>
-              </div>}
+              {flagForDate ? (
+                queDetails.options.map((opt, i) => {
+                  return (
+                    <div key={opt.id}>
+                      <input
+                        id={opt.id}
+                        className="option-input"
+                        value={opt.name}
+                        onChange={(e) => editOption(e, opt.id)}
+                      />
+                      <CloseButton onClick={(e) => removeOption(e, opt.id)} />
+                    </div>
+                  );
+                })
+              ) : (
+                <div>
+                  <input
+                    type="date"
+                    className="option-input"
+                    onChange={(e) => editOption(e, "123")}
+                  />
+                </div>
+              )}
+              {flagForDate && (
+                <div>
+                  <button
+                    type="button"
+                    className="add-option"
+                    onClick={addOption}
+                  >
+                    Add option
+                  </button>{" "}
+                  or
+                  <button className="add-other" onClick={addOther}>
+                    add "Other"
+                  </button>
+                </div>
+              )}
             </div>
             <div className="icons">
               <svg
@@ -180,16 +192,15 @@ function Questions() {
               </svg>
 
               {/* <div className="required-toggle">
-            <div className="circle"></div>
-            <div></div>
-        </div> */}
+  <div className="circle"></div>
+  <div></div>
+</div> */}
             </div>
           </div>
         </div>
-      </div>
-      <SideFunctions addQuestion={addNewQuestion} />
+      )}
     </div>
   );
 }
 
-export default Questions;
+export default SavedQuestions;

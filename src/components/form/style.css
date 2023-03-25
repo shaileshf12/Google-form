@@ -39,7 +39,7 @@
     border: 1px solid black;
     justify-content: center;
     background-color: rgb(240,235,248);
-    height: 100vh;
+    height: 100%;
 }
 .questions{
     display: flex;
@@ -60,6 +60,15 @@
     border-left: .6rem rgb(66,133,244) solid;
     border-radius: .6rem;
     background-color: white;
+}
+
+.saved-question{
+    width: 45rem;
+    margin-top: 1rem;
+    border: 1px solid black;
+    padding: 1rem;
+    background-color: white;
+    border-radius: .6rem;
 }
 
 .input-title{
@@ -117,6 +126,7 @@
 
 .add-option{
     border: none;
+    margin-top: 1rem;
     border-bottom: 1px solid black;
 }
 
@@ -149,16 +159,17 @@
     background-color: aqua;
 }
 
-/* .questions-functionality{
+.questions-functionality{
     display: flex;
-    border: 1px solid black;
-} */
+    /* border: 1px solid black; */
+}
 
 .side-functions{
     /* border: 1px solid black; */
-    justify-content: center;
+    justify-content: flex-start;
     display: flex;
     flex-direction: column-reverse;
+    margin-bottom: 2rem;
 }
 
 .add-functionality{
@@ -171,4 +182,8 @@
     position: -webkit-sticky;
   position: sticky;
   bottom: 0;
+}
+
+.option-input{
+    border: none;
 }
