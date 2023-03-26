@@ -1,4 +1,5 @@
 import "./App.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import AllRoutes from "./AllRoutes";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";

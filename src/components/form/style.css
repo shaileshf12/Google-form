@@ -36,9 +36,15 @@
 
 .questions-main{
     display: flex;
-    border: 1px solid black;
-    justify-content: center;
     background-color: rgb(240,235,248);
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 3rem;
+}
+
+.questions-sub-main{
+    display: flex;
+    justify-content: center;
     height: 100%;
 }
 .questions{
@@ -144,6 +150,13 @@
     justify-content: flex-end;
     padding: 1rem;
     gap: 2rem;
+    /* border: 1px solid black; */
+}
+
+.is-required{
+    /* border: 1px solid black; */
+    /* margin-bottom: 5.5rem; */
+    margin-top: -.5rem;
 }
 
 .required-toggle{

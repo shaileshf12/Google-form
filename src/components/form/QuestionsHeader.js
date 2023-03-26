@@ -1,12 +1,9 @@
 import React from 'react'
-import { useParams } from "react-router-dom";
-import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setTitle, setDescription, addQuestion } from "../../redux/form/formActions";
+import { setTitle, setDescription} from "../../redux/form/formActions";
 
 function QuestionsHeader() {
 
-  const id = useParams();
   const { title, description } = useSelector((state) => state.form);
   const dispatch = useDispatch();
 

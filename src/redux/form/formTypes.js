@@ -1,4 +1,5 @@
 
+export const FORM_ID = 'FORM_ID'
 export const SET_MAIN_TITLE = 'SET_MAIN_TITLE'
 export const SET_TITLE = 'SET_TITLE'
 export const SET_DESCIPTION = 'SET_DESCIPTION'

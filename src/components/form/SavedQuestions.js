@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef} from "react";
-import { useSelector, useDispatch } from "react-redux";
+import {useDispatch } from "react-redux";
 import Form from "react-bootstrap/Form";
 import CloseButton from "react-bootstrap/CloseButton";
-import { editQuestion, deleteQuestion, duplicateHandler, addDuplicateQuestion} from "../../redux/form/formActions";
+import { editQuestion, deleteQuestion, addDuplicateQuestion} from "../../redux/form/formActions";
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
+import Switch from "@mui/material/Switch";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 
 function SavedQuestions(props) {
@@ -79,7 +81,6 @@ function SavedQuestions(props) {
   const duplicateHandler = () =>{
     const newId = Math.floor(Math.random()*10000).toString()
     setIsEditable(false)
-    // disaptch(editQuestion(queDetails))
     const newQuestion = {...queDetails, id:newId}
     disaptch(addDuplicateQuestion(props.question.id, newQuestion))
   }
@@ -102,6 +103,13 @@ function SavedQuestions(props) {
       disaptch(editQuestion(queDetails))
     }
   }
+
+  const [checked, setChecked] = React.useState(queDetails.required);
+
+  const handleChange = (e) => {
+    setChecked((prev) => !prev);
+    setQueDetails({...queDetails, required : !checked})
+  };
 
   return (
     <div>
@@ -184,11 +192,11 @@ function SavedQuestions(props) {
             <div className="icons">
               <ContentCopyOutlinedIcon type="button" onClick={duplicateHandler}/>
               <DeleteOutlineOutlinedIcon type="button" onClick={deleteCurrentQuestion}/>
-
-              {/* <div className="required-toggle">
-  <div className="circle"></div>
-  <div></div>
-</div> */}
+              <FormControlLabel
+                  className="is-required"
+                  control={<Switch checked={checked} onChange={handleChange} />}
+                  label="Required"
+                />
             </div>
           </div>
         </div>

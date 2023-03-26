@@ -6,9 +6,17 @@ import {
   EDIT_QUESTION,
   DELETE_QUESTION,
   ADD_DUPLICATE_QUESTION,
+  FORM_ID
 } from "./formTypes";
 
-export const setMainTitle = (title) => {
+export const addFormId = (id) => {
+  return {
+    type : FORM_ID,
+    payload : id
+  }
+}
+
+export const addMainTitle = (title) => {
   return {
     type: SET_MAIN_TITLE,
     payload: title,

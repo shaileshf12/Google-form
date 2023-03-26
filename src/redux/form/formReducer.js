@@ -5,34 +5,44 @@ import {
   ADD_QUESTION,
   EDIT_QUESTION,
   DELETE_QUESTION,
-  ADD_DUPLICATE_QUESTION
+  ADD_DUPLICATE_QUESTION,
+  FORM_ID
 } from "./formTypes";
 import produce from "immer";
 
 const initialState = {
+  id : '',
   mainTitle: "Untitled form",
   title: "Untitled form",
   description: "",
   questions: [{
-      id : '1234',
-      name: "Untitled Question",
-      type: "multiple_coice",
-      options: [{ id: "123", name: "Option1"}]
-  }],
+    id: "1234",
+    name: "Untitled Question",
+    type: "multiple_coice",
+    required: false,
+    options: [{ id: "123", name: "Option1" }],
+  }]
 };
 
 const formReducer = (state = initialState, action) => {
   switch (action.type) {
+
+    case FORM_ID:
+      return {
+        ...state,
+        id : action.payload
+      }
+
     case SET_MAIN_TITLE:
       return {
         ...state,
-        mainTitle: action.payload,
+        mainTitle: action.payload
       };
 
     case SET_TITLE:
       return {
         ...state,
-        title: action.payload,
+        title: action.payload
       };
 
     case SET_DESCIPTION:
@@ -44,8 +54,14 @@ const formReducer = (state = initialState, action) => {
     case ADD_QUESTION:
       const i = state.questions.length
       return produce(state, (draftState)=>{
+        if(i===0)
+        {
+          draftState.questions.push(action.payload)
+          console.log(action.payload)
+          return 
+        }
         draftState.questions = draftState.questions.reduce((acc, que, j)=>{
-            if(j==i-1)
+            if(j===i-1)
             {
                 acc.push(action.payload)
                 acc.push(que)
@@ -54,6 +70,7 @@ const formReducer = (state = initialState, action) => {
             acc.push(que)
             return acc;
         }, [])
+
     })
 
     case EDIT_QUESTION:
@@ -87,7 +104,6 @@ const formReducer = (state = initialState, action) => {
                     acc.push(que)
                     return acc;
                 }
-
                 acc.push(que)
                 return acc;
             }, [])

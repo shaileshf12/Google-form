@@ -3,6 +3,7 @@ import NavBar from "./NavBar";
 import plus from '../../assets/plus.png'
 import { useNavigate } from "react-router-dom";
 import './style.css'
+import DisplayForms from "./DisplayForms";
 
 function Dashboard() {
 
@@ -28,6 +29,9 @@ function Dashboard() {
 
                 </div>
             </div>
+        </div>
+        <div>
+          <DisplayForms/>
         </div>
       </div>
     </div>

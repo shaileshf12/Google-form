@@ -1,26 +1,46 @@
 import React from "react";
 import { Container, Navbar } from "react-bootstrap";
-import { useState} from "react";
+import { useState, useRef, useEffect} from "react";
 import "./style.css";
 import logo from "../../assets/logo.jpeg";
-import { Link, Outlet } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { setMainTitle } from "../../redux/form/formActions";
-import { setTitle } from "../../redux/form/formActions";
+import { Link, Outlet, useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addMainTitle, setTitle, addFormId } from "../../redux/form/formActions";
 
 function Header() {
-  // const [mainTitle, setMainTitle] = useState("Untitled form");
+  const [mainTitle, setMainTitle] = useState("Untitled form");
+  const [formInput, setFormInput] = useState(true)
   const dispatch = useDispatch()
-  const {mainTitle, title} = useSelector((state)=>state.form)
+  
+  const {id} = useParams()
 
-  const state = useSelector((state)=>state.form)
+  useEffect(()=>{
+    console.log("Hello")
+    dispatch(addFormId(id))
+  },[])
 
   const mainTitleHandler = (e) =>{
-    dispatch(setMainTitle(e.target.value))
+    setMainTitle(e.target.value)
+    setFormInput(true)
   }
 
-  const changeTitle = () =>{
-    dispatch(setTitle(mainTitle))
+  const ref = useRef(null)
+
+  useEffect(()=>{
+    document.addEventListener('click', handleClickOutside, true)
+
+    return ()=>{
+      document.removeEventListener('click', handleClickOutside, true)
+    }
+  })
+
+
+  const handleClickOutside = (e) =>{
+    if(ref.current && !ref.current.contains(e.target)){
+      dispatch(addMainTitle(mainTitle))
+      dispatch(setTitle(mainTitle))
+      setFormInput(false)
+    }
   }
 
   return (
@@ -37,7 +57,10 @@ function Header() {
                   height="35"
                   className="d-inline-block align-top"
                 />{" "}
-                <input  className="main-title-input" value={mainTitle} onChange={mainTitleHandler} onMouseEnter={changeTitle} />
+                {formInput ? <input ref={ref} className="main-title-input" value={mainTitle} onChange={mainTitleHandler}/>
+                :
+                <input className="main-title-input" value={mainTitle} onChange={mainTitleHandler}/>
+                }
               </Navbar.Brand>
             </Container>
           </div>
