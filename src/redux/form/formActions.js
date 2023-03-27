@@ -6,7 +6,8 @@ import {
   EDIT_QUESTION,
   DELETE_QUESTION,
   ADD_DUPLICATE_QUESTION,
-  FORM_ID
+  FORM_ID,
+  CLEAR_FORM
 } from "./formTypes";
 
 export const addFormId = (id) => {
@@ -63,4 +64,9 @@ export const addDuplicateQuestion = (prevId, question) =>{
         type : ADD_DUPLICATE_QUESTION,
         payload : {prevId, question}
     }
+}
+export const clearForm = () => {
+  return {
+    type : CLEAR_FORM
+  }
 }

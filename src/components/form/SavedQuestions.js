@@ -13,6 +13,7 @@ function SavedQuestions(props) {
   const [isEditable, setIsEditable] = useState(false);
   const [flagForDate, setFlagForDate] = useState(true)
   const [queDetails, setQueDetails] = useState(props.question)
+  const [otherFlag, setOtherFlag] = useState(true)
 
   const disaptch = useDispatch()
 
@@ -53,7 +54,15 @@ function SavedQuestions(props) {
 
   const removeOption = (e, id) =>{
     const ar = queDetails.options.filter((opt, j) => {
-      return opt.id !== id;
+      if(opt.id === id)
+      {
+        if(opt.name==='Other')
+        {
+          setOtherFlag(true)
+        }
+        return false
+      }
+      return true
     });
     setQueDetails({ ...queDetails, options: [...ar] });
   }
@@ -70,6 +79,7 @@ function SavedQuestions(props) {
   const addOther = () =>{
     const id = Math.floor(Math.random() * 1000).toString();
     const ar = [...queDetails.options];
+    setOtherFlag(false)
     setQueDetails({ ...queDetails, options: [...ar, { id, name: "Other" }] });
   }
 
@@ -139,6 +149,7 @@ function SavedQuestions(props) {
               <div>
                 <Form.Select
                   aria-label="Default select example"
+                  value={queDetails.type}
                   onChange={selectType}
                 >
                   <option value="multiple_coice">Multiple Choice</option>
@@ -158,6 +169,7 @@ function SavedQuestions(props) {
                         id={opt.id}
                         className="option-input"
                         value={opt.name}
+                        disabled={opt.name==='Other'}
                         onChange={(e) => editOption(e, opt.id)}
                       />
                       <CloseButton onClick={(e) => removeOption(e, opt.id)} />
@@ -183,9 +195,9 @@ function SavedQuestions(props) {
                     Add option
                   </button>{" "}
                   or
-                  <button className="add-other" onClick={addOther}>
+                  {otherFlag && <button className="add-other" onClick={addOther}>
                     add "Other"
-                  </button>
+                  </button>}
                 </div>
               )}
             </div>

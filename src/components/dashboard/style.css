@@ -13,8 +13,10 @@
     display: flex;
     background-color: rgb(241,243,244);
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    /* padding: 2rem; */
-    justify-content: center;
+    border: 1px solid black;
+    justify-content: flex-start;
+    gap: 2rem;
+    flex-wrap: wrap;
   }
   
   .forms-inner-box{
@@ -22,10 +24,40 @@
     flex-direction: column;
     /* margin: 0 5rem 0 5rem; */
     /* border: 1px solid black; */
-    width: 70%;
+    width: 10rem;
     padding: 1rem;
    
   }
+
+  .modal-main{
+    background-color: rgb(241,243,244);
+  }
+
+  .all-forms{
+    display: flex;
+    /* border: 1px solid black; */
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .question-ui{
+    border: 1px solid black;
+    margin: 1rem 0 1rem 0;
+    background-color: white;
+    padding: 1rem;
+  }
+
+  .each-form{
+    width: 8rem;
+    height: 8rem;
+    padding: 2rem;
+    margin-top: 3.5rem;
+    border: 1px solid black;
+    border-radius: .5rem;
+    background-color: aquamarine;
+    cursor: pointer;
+  }
+
   
   .forms{
     display: flex;

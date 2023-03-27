@@ -15,7 +15,6 @@ function Header() {
   const {id} = useParams()
 
   useEffect(()=>{
-    console.log("Hello")
     dispatch(addFormId(id))
   },[])
 

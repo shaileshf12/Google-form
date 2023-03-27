@@ -15,14 +15,15 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 import ContentCopyOutlinedIcon from "@mui/icons-material/ContentCopyOutlined";
 import Switch from "@mui/material/Switch";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import QuestionsFooter from "./QuestionsFooter";
 
 function Questions() {
-  const disaptch = useDispatch();
-
+  const disaptch = useDispatch();  
   const { questions } = useSelector((state) => state.form);
 
   const [queDetails, setQueDetails] = useState(questions[questions.length - 1]);
+  const [flagForDate, setFlagForDate] = useState(false);
+  const [otherFlag, setOtherFlag] = useState(true)
+
   const addQuestionName = (e) => {
     setQueDetails({ ...queDetails, name: e.target.value });
   };
@@ -39,11 +40,12 @@ function Questions() {
       })
     }
     else{
-    setQueDetails(questions[questions.length - 1])
     }
+
+    setQueDetails(questions[questions.length - 1])
+
   }, [questions.length])
- 
-  const [flagForDate, setFlagForDate] = useState(false);
+
 
   const selectType = (e) => {
     if (e.target.value === "date") {
@@ -83,12 +85,22 @@ function Questions() {
   const addOther = () => {
     const id = Math.floor(Math.random() * 1000).toString();
     const ar = [...queDetails.options];
+    setOtherFlag(false)
     setQueDetails({ ...queDetails, options: [...ar, { id, name: "Other" }] });
   };
 
   const removeOption = (e, id) => {
     const ar = queDetails.options.filter((opt, j) => {
-      return opt.id !== id;
+      if(opt.id === id)
+      {
+        if(opt.name==='Other')
+        {
+          setOtherFlag(true)
+        }
+        return false
+      }
+      return true
+
     });
     setQueDetails({ ...queDetails, options: [...ar] });
   };
@@ -96,6 +108,7 @@ function Questions() {
   const addNewQuestion = () => {
     const id = Math.floor(Math.random() * 10000).toString();
 
+    console.log("Add question")
     if (questions.length === 0) {
       console.log("when no question");
       disaptch(
@@ -112,7 +125,7 @@ function Questions() {
     }
 
     setFlagForDate(false)
-
+    setOtherFlag(true)
     setChecked(false)
   };
 
@@ -162,7 +175,7 @@ function Questions() {
                     onChange={selectType}
                     value={queDetails.type}
                   >
-                    <option value="multiple_coice">Multiple Choice</option>
+                    <option value="multiple_choice">Multiple Choice</option>
                     <option value="checkboxes">Checkboxes</option>
                     <option value="dropdown">Dropdown</option>
                     <option value="date">Date</option>
@@ -173,13 +186,13 @@ function Questions() {
               <div className="options">
                 {!flagForDate ? (
                   queDetails.options.map((opt, i) => {
-                    console.log(opt.name)
                     return (
                       <div key={opt.id}>
                         <input
                           id={opt.id}
                           className="option-input"
                           value={opt.name}
+                          disabled={opt.name==='Other'}
                           onChange={(e) => editOption(e, opt.id)}
                         />
                         <CloseButton onClick={(e) => removeOption(e, opt.id)} />
@@ -205,9 +218,10 @@ function Questions() {
                       Add option
                     </button>{" "}
                     or
-                    <button className="add-other" onClick={addOther}>
+                    {otherFlag && <button className="add-other" onClick={addOther}>
                       add "Other"
                     </button>
+                    }
                   </div>
                 )}
               </div>
@@ -233,7 +247,6 @@ function Questions() {
       </div>
       <SideFunctions addQuestion={addNewQuestion} />
     </div>
-    <QuestionsFooter/>
     </div>
   );
 }

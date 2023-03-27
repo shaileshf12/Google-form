@@ -15,6 +15,8 @@ function Dashboard() {
     navigate(`${id}`)
   }
 
+  
+
   return (
     <div className="dashboard-main">
       <NavBar />
@@ -30,7 +32,7 @@ function Dashboard() {
                 </div>
             </div>
         </div>
-        <div>
+        <div className="all-forms">
           <DisplayForms/>
         </div>
       </div>
