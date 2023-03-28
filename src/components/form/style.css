@@ -18,9 +18,11 @@
     display: flex;
     justify-content: center;
     gap: 1rem;
-    font-size:medium;
-    font-weight: 550;
-    font-family:Georgia, 'Times New Roman', Times, serif;
+    font-size:.9rem;
+    font-weight: 500;
+    /* font-family:Arial, Helvetica, sans-serif; */
+    font-family: 'Roboto', sans-serif;
+    /* margin-bottom: 0.7rem; */
 }
 
 .main-title-input{
@@ -32,6 +34,7 @@
 .link{
     text-decoration: none;
     color: black;
+    padding: .3rem;
 }
 
 .questions-main{
@@ -40,6 +43,9 @@
     flex-direction: column;
     align-items: center;
     padding-bottom: 3rem;
+    height: 100%;
+    min-height: 100vh;
+    /* border: 1px solid black; */
 }
 
 .questions-sub-main{
@@ -61,9 +67,8 @@
     padding: 1rem;
     width: 45rem;
     margin-top: 1rem;
-    border: 1px solid black;
+    border: 1px solid rgb(207, 202, 202);
     border-top: .8rem rgb(103,58,183) solid;
-    border-left: .6rem rgb(66,133,244) solid;
     border-radius: .6rem;
     background-color: white;
 }
@@ -71,7 +76,7 @@
 .saved-question{
     width: 45rem;
     margin-top: 1rem;
-    border: 1px solid black;
+    border: 1px solid rgb(207, 202, 202);
     padding: 1rem;
     background-color: white;
     border-radius: .6rem;
@@ -92,11 +97,11 @@
 
 .question-main{
     width: 45rem;
-    border: 1px solid black;
+    border: 1px solid rgb(207, 202, 202);
     margin: 1rem 0 1rem 0;
     padding: 1rem;
     background-color: white;
-    border-left: .6rem rgb(66,133,244) solid;
+    border-left: .8rem rgb(103,58,183) solid;
     border-radius: .6rem;
 }
 
@@ -133,12 +138,14 @@
 .add-option{
     border: none;
     margin-top: 1rem;
-    border-bottom: 1px solid black;
+    background-color: white;
+    /* border-bottom: 1px solid black; */
 }
 
 .add-other{
     border: none;
     color: rgb(56,170,248);
+    background-color: white;
 }
 
 .svg{
@@ -186,17 +193,34 @@
 }
 
 .add-functionality{
-    width: 2rem;
-    height: 10rem;
-    border: 1px solid black;
-    padding: .2rem;
+    display: flex;
+    flex-direction: column;
+    gap: .7rem;
+    width: 2.5rem;
+    height: 14rem;
+    border: 1px solid rgb(207, 202, 202);
+    padding: .5rem;
     margin-left: 1rem;
     border-radius: .5rem;
-    position: -webkit-sticky;
+    background-color: white;
+    /* position: -webkit-sticky;
   position: sticky;
-  bottom: 0;
+  bottom: 0; */
 }
 
 .option-input{
     border: none;
+    border-bottom: 1px solid rgb(221, 208, 208);
+    background-color: white;
+    color: black;
+    padding: .5rem;
+}
+
+.responses-main{
+    display: flex;
+    justify-content: center;
+}
+
+.close{
+    height: .3rem;
 }

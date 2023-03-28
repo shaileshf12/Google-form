@@ -3,20 +3,30 @@
 .dashboard-main{
     display: flex;
     flex-direction: column;
+    /* border: 1px solid black; */
   }
   
   .nav{
-    border: 1px solid rgb(243, 233, 233);
+    display: flex;
+    border: 1px solid rgb(207, 202, 202);
+    justify-content: flex-start;
+    align-items: start;
   }
+
   
   .forms-main-box{
     display: flex;
     background-color: rgb(241,243,244);
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    border: 1px solid black;
-    justify-content: flex-start;
+    /* border: 1px solid black; */
+    justify-content: center;
     gap: 2rem;
     flex-wrap: wrap;
+    padding: 2rem;
+  }
+
+  .dashbord-main{
+    display: flex;
   }
   
   .forms-inner-box{
@@ -38,13 +48,7 @@
     /* border: 1px solid black; */
     gap: 2rem;
     flex-wrap: wrap;
-  }
-
-  .question-ui{
-    border: 1px solid black;
-    margin: 1rem 0 1rem 0;
-    background-color: white;
-    padding: 1rem;
+    margin-left: 1rem;
   }
 
   .each-form{
@@ -52,10 +56,14 @@
     height: 8rem;
     padding: 2rem;
     margin-top: 3.5rem;
-    border: 1px solid black;
+    border: 1px solid rgb(207, 202, 202);
     border-radius: .5rem;
     background-color: aquamarine;
     cursor: pointer;
+  }
+
+  .form-name{
+    margin-top: 1rem;
   }
 
   
@@ -68,10 +76,10 @@
   }
   
   .new-form{
-    width: 8rem;
+    width: 15rem;
     height: 8rem;
-    border: 1px solid black;
-    border-radius: .5rem;
+    border: 1px solid rgb(207, 202, 202);
+    /* border-radius: .5rem; */
     padding: 2rem;
     cursor: pointer;
     background-color: white;
@@ -81,3 +89,62 @@
     width: 4rem;
     height: 4rem;
   }
+
+  .v{
+    display: flex;
+  }
+
+  .showform-header{
+    display: flex;
+    border: 1px solid rgb(207, 202, 202);
+    padding: 1rem;
+    flex-direction: column;
+  }
+
+  .show-form-body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(240,235,248);
+    height: 100%;
+    min-height: 100vh;
+  }
+
+  .show-form-title{
+    padding: 1rem;
+    width: 40rem;
+    border: 1px solid rgb(207, 202, 202);
+    border-top: .8rem solid rgb(88,42,41);
+    border-radius: .5rem;
+    background-color: white;
+    margin-top: 1rem;
+
+  }
+
+  .form-questions{
+    width: 40rem;
+    /* border: 1px solid black; */
+  }
+  
+  .question-ui{
+    border: 1px solid rgb(207, 202, 202);
+    border-radius: .5rem;
+    margin: 1rem 0 1rem 0;
+    background-color: white;
+    padding: 1rem;
+  }
+
+  .container{
+    /* border: 1px solid black; */
+    /* width: 20rem; */
+  }
+
+  .main-title{
+    font-size: 1.4rem;
+  }
+
+  .form-optin-input{
+    padding: .5rem;
+  }
+
+  

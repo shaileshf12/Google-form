@@ -20,7 +20,7 @@ const initialState = {
     {
       id: "1234",
       name: "Untitled Question",
-      type: "multiple_coice",
+      type: "multiple_choice",
       required: false,
       options: [{ id: "123", name: "Option1" }],
     },
@@ -36,12 +36,20 @@ const formReducer = (state = initialState, action) => {
       };
 
     case SET_MAIN_TITLE:
+      
       return {
         ...state,
         mainTitle: action.payload,
       };
 
     case SET_TITLE:
+      if(action.payload.length==0)
+      {
+        return {
+          ...state,
+          title : "Untitled form"
+        }
+      }
       return {
         ...state,
         title: action.payload,
@@ -73,6 +81,7 @@ const formReducer = (state = initialState, action) => {
       });
 
     case EDIT_QUESTION:
+      console.log(action.payload)
       return produce(state, (draftState) => {
         draftState.questions = draftState.questions.map((question) => {
           if (question.id === action.payload.id) {
@@ -120,7 +129,7 @@ const formReducer = (state = initialState, action) => {
           {
             id: "1234",
             name: "Untitled Question",
-            type: "multiple_coice",
+            type: "multiple_choice",
             required: false,
             options: [{ id: "123", name: "Option1" }],
           },

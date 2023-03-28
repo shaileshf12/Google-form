@@ -27,21 +27,22 @@ function Questions() {
   const addQuestionName = (e) => {
     setQueDetails({ ...queDetails, name: e.target.value });
   };
-
+  
   useEffect(()=>{
+
     if(questions.length===0)
     {
+      console.log("When length zero")
       setQueDetails({
         id: "1234",
         name: "Untitled Question",
-        type: "multiple_coice",
+        type: "multiple_choice",
         required: false,
         options: [{ id: "123", name: "Option1" }],
       })
     }
     else{
     }
-
     setQueDetails(questions[questions.length - 1])
 
   }, [questions.length])
@@ -58,15 +59,17 @@ function Questions() {
     } else {
       setFlagForDate(false);
     }
+
+    console.log(e.target.value)
     setQueDetails({ ...queDetails, type: e.target.value });
   };
 
   const editOption = (e, id) => {
     // const ar = [...queDetails.options.slice(0, i), e.target.value, ...queDetails.options.slice(i+1)]
+    console.log(e.target.value)
     const ar = queDetails.options.map((opt, j) => {
       if (opt.id === id) {
-        opt.name = e.target.value;
-        return opt;
+        return {...opt, name : e.target.value};
       }
       return opt;
     });
@@ -108,20 +111,36 @@ function Questions() {
   const addNewQuestion = () => {
     const id = Math.floor(Math.random() * 10000).toString();
 
-    console.log("Add question")
     if (questions.length === 0) {
       console.log("when no question");
       disaptch(
         addQuestion({
           id: "1234",
           name: "Untitled Question",
-          type: "multiple_coice",
+          type: "multiple_choice",
           required: false,
-          options: [{ id: "123", name: "Option1" }],
+          options: [{ id: "123", name: "Option1" }]
         })
       );
     } else {
-      disaptch(addQuestion({ ...queDetails, id: id }));
+      if(queDetails.name.length===0)
+      {
+        queDetails.name = "Question"
+      }
+
+      const ar = queDetails.options.map((option, i)=>{
+        if(option.name.length===0){
+          return {...option, name:`Option${i+1}`}
+        }
+        return option
+      })
+
+
+      if(queDetails.options.length===0)
+      {
+        ar.push({id:'123', name:"Option1"})
+      }
+      disaptch(addQuestion({ ...queDetails, options:[...ar], id: id }));
     }
 
     setFlagForDate(false)
@@ -159,7 +178,7 @@ function Questions() {
             return "";
           })}
 
-        {questions.length !== 0 && (
+        {questions.length !== 0 && queDetails!==undefined && (
           <div className="questions-functionality">
             <div className="question-main">
               <div className="question-and-type">
@@ -193,9 +212,10 @@ function Questions() {
                           className="option-input"
                           value={opt.name}
                           disabled={opt.name==='Other'}
+                          style={opt.name==='Other'? {border:'none'} : {}}
                           onChange={(e) => editOption(e, opt.id)}
                         />
-                        <CloseButton onClick={(e) => removeOption(e, opt.id)} />
+                        <CloseButton className="close" onClick={(e) => removeOption(e, opt.id)} />
                       </div>
                     );
                   })
@@ -217,7 +237,7 @@ function Questions() {
                     >
                       Add option
                     </button>{" "}
-                    or
+                    {otherFlag && <span>or</span>}
                     {otherFlag && <button className="add-other" onClick={addOther}>
                       add "Other"
                     </button>
